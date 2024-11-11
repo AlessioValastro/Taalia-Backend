@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateAccountsTable extends Migration
 {
     /**
-     * Esegui la migrazione.
+     * Run the migrations.
      *
      * @return void
      */
@@ -19,13 +19,15 @@ class CreateAccountsTable extends Migration
             $table->string('surname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('user_type', ['admin', 'user']); // Puoi aggiungere altri tipi se necessario
+            $table->enum('status', ['student', 'worker', 'unemployed']); // Campo status
+            $table->string('profile_picture')->nullable(); // Campo profile_picture
+            $table->json('tags')->nullable(); // Campo tags (array di stringhe)
             $table->timestamps();
         });
     }
 
     /**
-     * Annulla la migrazione.
+     * Reverse the migrations.
      *
      * @return void
      */

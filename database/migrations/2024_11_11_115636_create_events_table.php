@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateEventsTable extends Migration
 {
     /**
-     * Esegui la migrazione.
+     * Run the migrations.
      *
      * @return void
      */
@@ -16,14 +16,19 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('organizer');
+            $table->unsignedBigInteger('organizer'); // Colonna chiave esterna
+            $table->date('date');
+            $table->string('address');
+            $table->float('price');
             $table->text('description');
+            $table->string('tags')->nullable();
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }
 
     /**
-     * Annulla la migrazione.
+     * Reverse the migrations.
      *
      * @return void
      */

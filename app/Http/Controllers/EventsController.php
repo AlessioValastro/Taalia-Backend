@@ -9,16 +9,13 @@ use App\Models\Ticket;
 class EventsController extends Controller
 {
     public function getEventsList($user_id){
-        // Recupera tutti i biglietti dell'utente corrente
-        $tickets = Ticket::where('user_id', $user_id)->get();
+        $tickets = Ticket::where('account_id', $user_id)->get();
     
-        // Estrae tutti gli ID degli eventi dai biglietti
         $eventIds = $tickets->pluck('event_id');
     
-        // Recupera gli eventi corrispondenti agli ID trovati
         $events = Event::whereIn('id', $eventIds)->get();
+
+        $events->load('organizer');
     
-        return response()->json($events, 200);
-    }
-    
+        return response()->json($events, 200);}
 }

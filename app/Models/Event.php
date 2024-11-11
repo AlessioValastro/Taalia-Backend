@@ -9,7 +9,18 @@ class Event extends Model
     protected $table = 'events';
     protected $fillable = [
         'title',
-        'organizer',
-        'description'
+        'organizer_id',
+        'date',
+        'address',
+        'price',
+        'description',
+        'tags',
+        'img'
     ];
+
+    // Definisci la relazione con l'organizzatore
+    public function organizer()
+    {
+        return $this->belongsTo(Organizer::class, 'organizer_id');
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateTicketsTable extends Migration
 {
     /**
-     * Esegui la migrazione.
+     * Run the migrations.
      *
      * @return void
      */
@@ -15,14 +15,14 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('accounts')->onDelete('cascade'); // Foreign key per l'Account
-            $table->foreignId('event_id')->constrained('events')->onDelete('cascade'); // Foreign key per l'Event
+            $table->unsignedBigInteger('account_id'); // Chiave esterna per Account
+            $table->unsignedBigInteger('event_id'); // Chiave esterna per Event
             $table->timestamps();
-        });
+         });
     }
 
     /**
-     * Annulla la migrazione.
+     * Reverse the migrations.
      *
      * @return void
      */
