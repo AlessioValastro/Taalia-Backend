@@ -12,4 +12,5 @@ Route::middleware(['web'])->group(function () {
 });
 
 Route::get('get-events/{user_id}', [EventsController::class, 'getEventsList']);
+Route::get('get-all-events', [EventsController::class, 'getAllEventsList']);
  

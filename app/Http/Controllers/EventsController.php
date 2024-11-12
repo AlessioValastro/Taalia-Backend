@@ -17,5 +17,14 @@ class EventsController extends Controller
 
         $events->load('organizer');
     
-        return response()->json($events, 200);}
+        return response()->json($events, 200);
+    }
+
+    public function getAllEventsList(){
+        $events = Event::all();
+        $events->load('organizer');
+
+        return response()->json($events, 200);
+    }
 }
+
