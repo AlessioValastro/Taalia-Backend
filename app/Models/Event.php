@@ -10,7 +10,7 @@ class Event extends Model
     protected $fillable = [
         'title',
         'organizer',
-        'date',
+        'date' => '2024-01-01',
         'address',
         'price',
         'description',

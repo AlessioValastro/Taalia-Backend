@@ -8,14 +8,20 @@ use App\Models\Ticket;
 
 class EventsController extends Controller
 {
-    public function getEventsList($user_id){
-        $tickets = Ticket::where('account_id', $user_id)->get();
+    public function getEventsList($user_id, $user_type){
     
-        $eventIds = $tickets->pluck('event_id');
+        if($user_type == 'u'){
+            $tickets = Ticket::where('account_id', $user_id)->get();
     
-        $events = Event::whereIn('id', $eventIds)->get();
+            $eventIds = $tickets->pluck('event_id');
+    
+            $events = Event::whereIn('id', $eventIds)->get();
 
-        $events->load('organizer');
+            $events->load('organizer');
+        } else{
+            $events = Event::where('organizer', $user_id)->get();
+        }
+    
     
         return response()->json($events, 200);
     }
@@ -25,6 +31,36 @@ class EventsController extends Controller
         $events->load('organizer');
 
         return response()->json($events, 200);
+    }
+
+    public function newEvent(Request $request){
+        
+            // Validazione dei dati in ingresso
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'date' => 'required|date|after_or_equal:today',
+                'address' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+            ]);
+    
+            
+                // Creazione del nuovo evento
+                $event = Event::create([
+                    'title' => $validated['title'],
+                    'date' => $validated['date'],
+                    'address' => $validated['address'],
+                    'description' => $validated['description'],
+                    'price' => $validated['price'],
+                    'img' => 'events/default.png',
+                    'organizer' => session('user_id'),
+                    'tags' => null,
+                ]);
+
+                return response()->json([
+                    'message' => 'Evento creato con successo!',
+                    'event' => $event,
+                ], 201);
     }
 }
 

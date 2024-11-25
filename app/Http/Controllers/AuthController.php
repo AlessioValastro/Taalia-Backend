@@ -21,6 +21,7 @@ class AuthController extends BaseController
         if ($user && Hash::check($credential['password'], $user->password)) {
             session()->put('user_id', $user->id);
             session()->put('name', $user->name);
+            session()->put('user_type', 'u');
             return response()->json(['message' => 'Login effettuato con successo', 'data' => session()->all()], 200);
         }
     
@@ -29,6 +30,7 @@ class AuthController extends BaseController
         if ($organizer && Hash::check($credential['password'], $organizer->password)) {
             session()->put('user_id', $organizer->id);
             session()->put('name', $organizer->name);
+            session()->put('user_type', 'o');
             return response()->json(['message' => 'Login effettuato con successo (Organizer)', 'data' => session()->all()], 200);
         }
     
@@ -91,7 +93,6 @@ class AuthController extends BaseController
     {
         session()->flush();
         Cookie::queue(Cookie::forget('laravel_session'));
-        Cookie::queue(Cookie::forget('XSRF-TOKEN'));
         
         return response()->json(['message' => 'Disconnessione effettuata con successo'], 200); 
     }
@@ -107,7 +108,8 @@ class AuthController extends BaseController
                 return response()->json([
                     'logged_in' => true,
                     'user_id' => session('user_id'),
-                    'name' => session('name')
+                    'name' => session('name'),
+                    'user_type' => session('user_type'),
                 ], 200);
             }
         

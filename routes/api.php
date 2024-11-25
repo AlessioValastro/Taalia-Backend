@@ -10,6 +10,7 @@ Route::middleware(['web'])->group(function () {
     Route::get('/check-session', [AuthController::class, 'checkSession']);
     Route::post('/signup-organizer', [AuthController::class, 'signupOrganizer']);
     Route::post('/signup', [AuthController::class, 'signup']);
-    Route::get('get-events/{user_id}', [EventsController::class, 'getEventsList']);
+    Route::get('get-events/{user_id}/{user_type}', [EventsController::class, 'getEventsList']);
     Route::get('get-all-events', [EventsController::class, 'getAllEventsList']);
+    Route::post('new-event', [EventsController::class, 'newEvent']);
 });
