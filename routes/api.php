@@ -13,4 +13,5 @@ Route::middleware(['web'])->group(function () {
     Route::get('get-events/{user_id}/{user_type}', [EventsController::class, 'getEventsList']);
     Route::get('get-all-events', [EventsController::class, 'getAllEventsList']);
     Route::post('new-event', [EventsController::class, 'newEvent']);
+    Route::get('get-event/{event_id}', [EventsController::class, 'getEvent']);
 });

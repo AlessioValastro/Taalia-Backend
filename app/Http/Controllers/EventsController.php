@@ -52,7 +52,7 @@ class EventsController extends Controller
                     'address' => $validated['address'],
                     'description' => $validated['description'],
                     'price' => $validated['price'],
-                    'img' => 'events/default.png',
+                    'img' => 'events/default.jpg',
                     'organizer' => session('user_id'),
                     'tags' => null,
                 ]);
@@ -62,5 +62,18 @@ class EventsController extends Controller
                     'event' => $event,
                 ], 201);
     }
+
+    public function getEvent($event_id)
+{
+    $event = Event::where('id', $event_id)->first();
+
+    if (!$event) {
+        return response()->json(['error' => 'Event not found'], 404);
+    }
+
+    $event->load('organizer');
+    return response()->json($event);
+}
+
 }
 
